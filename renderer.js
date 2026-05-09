@@ -22,18 +22,19 @@ for (input in inputinfo){
 }
 
 // LOAD
-document.getElementById("loadBtn").addEventListener("click", () => {
-
+function loadData() {
     const savedData = localStorage.getItem("savedData");
+
+    if (!savedData) return; // nothing saved yet
 
     const parsedData = JSON.parse(savedData);
 
-    inputinfo.input.value = parsedData.input;
-    inputinfo.inputDate.value = parsedData.inputDate;
-    inputinfo.inputTitle.value = parsedData.inputTitle;
+    inputinfo.input.value = parsedData.input || "";
+    inputinfo.inputDate.value = parsedData.inputDate || "";
+    inputinfo.inputTitle.value = parsedData.inputTitle || "";
 
     output.innerText = "Loaded!";
-});
+}
 
 
 // CLEAR
@@ -43,3 +44,6 @@ document.getElementById("clearBtn").addEventListener("click", () => {
 
     output.innerText = "Cleared!";
 });
+
+// Load Data Appon Load
+loadData();
