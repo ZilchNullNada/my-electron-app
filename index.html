@@ -1,25 +1,101 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Storage Test</title>
+    <style>
+        .task-row{
+            display:flex;
+            gap:6px;
+            margin-bottom:6px;
+            align-items:center;
+        }
+
+        .task-input{
+            flex:1;
+            min-width:0;
+            background:black;
+            color:white;
+        }
+        
+        .task-input input[type = "button"]{
+            flex:0;
+            min-width:0%;
+            max-width:20px;
+            background:black;
+            color:white;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #111;
+            color: white;
+        }
+
+        /* overall layout */
+        #app {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* LEFT SIDEBAR */
+        #sidebar {
+            max-width: 70px;
+            background: #1e1e1e;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            
+        }
+
+        /* buttons */
+        #sidebar button {
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        /* MAIN CONTENT */
+        #main {
+            flex: 1;
+            padding: 20px;
+            overflow: auto;
+        }
+
+        /* VIEW AREA */
+        #view {
+            background: #222;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 200px;
+        }
+    </style>
 </head>
 
 <body style="background:black; color:white;">
 
-    <h1>Storage Test</h1>
+<div id="app">
 
-    <input id="noteTitle" type="text" placeholder="Note Title">
-    <input id="noteInput" type="text" placeholder="Enter your note here..."> 
-    <input id="noteDate" type="text" placeholder="Note Date">
+    <!-- LEFT PANEL -->
+    <div id="sidebar">
+        <h3>Menu</h3>
 
-    <button id="loadBtn">Load</button>
+        <button onclick="showNotes()">Notes</button>
+        <button onclick="showChecklist()">Checklist</button>
+        <button onclick="showCalendar()";>Calendar</button>
+    </div>
 
-    <button id="clearBtn">Clear</button>
+    <!-- MAIN AREA -->
+    <div id="main">
+        <div id="view">
+            <h2>Welcome</h2>
+            <p>Select a section</p>
+        </div>
+    </div>
 
-    <p id="output"></p>
+</div>
 
-    <script src="renderer.js"></script>
+<script src="renderer.js"></script>
 
 </body>
 </html>

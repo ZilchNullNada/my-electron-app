@@ -1,49 +1,105 @@
 const inputinfo = {
-    input : document.getElementById("noteInput"),
-    inputDate : document.getElementById("noteDate"),
-    inputTitle : document.getElementById("noteTitle")
+    notes : document.getElementById("notes"),
 }
-const output = document.getElementById("output");
+
+
+
+function showNotes() {
+    document.getElementById("view").innerHTML = `
+        <h2>Notes</h2>
+        <textarea id = "notes"; style="width:100%; height:130px; background:black; color:white " placeholder = "Start Your notes..."; onchange = "save('notes',notes.value)"></textarea>
+    `;
+    document.getElementById("notes").value = load('notes');
+}
+
+function removeTask(index){
+    let checklistitems = JSON.parse(load("checklistitems"));
+    if(checklistitems.length>1){
+        checklistitems.splice(index, 1);
+        save("checklistitems", checklistitems, true);
+    }
+    showChecklist();
+}
+
+function addTask(index){
+    let checklistitems = JSON.parse(load("checklistitems"));
+    checklistitems.splice(index+1, 0,"");
+    save("checklistitems", checklistitems, true);
+    showChecklist();
+}
+function saveTask(index){
+    let id = document.getElementById("checklistitem"+index.toString())
+    console.log(id.value)
+    let checklistitems = JSON.parse(load("checklistitems"));
+    checklistitems.splice(index, 1,id.value);
+    save("checklistitems", checklistitems, true);
+    showChecklist();
+}
+
+function showChecklist() {
+    var display
+    var checklistitems
+    var test =  ["asd", 2, "sa"]
+
+    if (load("checklistitems") === null){
+        save("checklistitems", ["",""], true)
+    }
+    if (load("numitems") === null){
+        save("numitems",1)
+    }
+    checklistitems = JSON.parse(load("checklistitems"))
+    display =`
+        <h2>Checklist</h2>
+    `;
+    for(let i = 0; i < checklistitems.length; i++){
+        display += `
+        <div class="task-row">
+            <input
+                id="checklistitem${i}"
+                class="task-input"
+                type="text"
+                placeholder="New task"
+                value="${checklistitems[i]}"
+                onchange="saveTask(${i})">
+            <input 
+                type = "button" 
+                onclick="addTask(${i})"
+                class="task-input"
+                value = "Add" >
+            <input 
+                type = "button" 
+                onclick="removeTask(${i})"
+                class="task-input" 
+                value = "Remove" >
+        </div>
+        `;
+    }
+    document.getElementById("view").innerHTML = display
+}
+
+function showCalendar() {
+    document.getElementById("view").innerHTML = `
+        <h2>Calendar</h2>
+        <p>(coming soon)</p>
+    `;
+}
+
 
 
 // SAVE
-for (input in inputinfo){
-    inputinfo[input].addEventListener("change", () => {
-        const saveData = {
-            input: inputinfo.input.value,
-            inputDate: inputinfo.inputDate.value,
-            inputTitle: inputinfo.inputTitle.value
-        };
-
-        localStorage.setItem("savedData", JSON.stringify(saveData));
-
-        output.innerText = "Saved!";
-    });
+function save(key, data, stringify = false) {
+    const value = stringify ? JSON.stringify(data) : data;
+    localStorage.setItem(key, value);
 }
 
 // LOAD
-function loadData() {
-    const savedData = localStorage.getItem("savedData");
+function load(key, parse = false) {
+    const data = localStorage.getItem(key);
 
-    if (!savedData) return; // nothing saved yet
+    if (data === null) return null;
 
-    const parsedData = JSON.parse(savedData);
-
-    inputinfo.input.value = parsedData.input || "";
-    inputinfo.inputDate.value = parsedData.inputDate || "";
-    inputinfo.inputTitle.value = parsedData.inputTitle || "";
-
-    output.innerText = "Loaded!";
+    return parse ? JSON.parse(data) : data;
 }
-
-
-// CLEAR
-document.getElementById("clearBtn").addEventListener("click", () => {
-
-    localStorage.removeItem("savedData");
-
-    output.innerText = "Cleared!";
-});
 
 // Load Data Appon Load
 loadData();
