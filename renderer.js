@@ -7,7 +7,7 @@ const inputinfo = {
 function showNotes() {
     document.getElementById("view").innerHTML = `
         <h2>Notes</h2>
-        <textarea id = "notes"; style="width:100%; height:130px; background:black; color:white " placeholder = "Start Your notes..."; onchange = "save('notes',notes.value)"></textarea>
+        <textarea id = "notes"; style="width:100%; height:100%; background:black; color:white; resize: none; "  placeholder = "Start Your notes..."; onchange = "save('notes',notes.value)"></textarea>
     `;
     document.getElementById("notes").value = load('notes');
 }
